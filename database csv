@@ -3,8 +3,18 @@ Stored book csv version
 csv format: 'name,author,read\n'
 [['name', 'author', 'read'], []]
 """
+import os
 
 books_file = 'data.txt'
+
+
+def create_data_file():
+    full_path = os.getcwd()
+    relativ_path = full_path + '\\' + books_file
+
+    if not os.path.isfile(relativ_path):
+        with open(books_file, 'w'):
+            pass
 
 
 def add_book(name, author):
@@ -18,17 +28,17 @@ def mark_book(name):
         if book['name'] == name:
             book['read'] = 1
 
-    save_all_books(books_)
+    _save_all_books(books_)
 
 
 def delete_book(name):
     books_ = get_all()
     books_ = [book for book in books_ if book['name'] != name]
 
-    save_all_books(books_)
+    _save_all_books(books_)
 
 
-def save_all_books(items):
+def _save_all_books(items):
     with open(books_file, 'w') as file:
         for book in items:
             file.write(f"{book['name']},{book['author']},{book['read']}\n")
