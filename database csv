@@ -34,8 +34,10 @@ def delete_book(name):
 def get_all():
     books_ = []
     with open(books_file, 'r') as file:
-        for line in file.readlines():
-            books_.append(line.strip().split(','))
+        books_ = [line.strip().split(',') for line in file.readlines()]
+        
+        # for line in file.readlines():
+        #     books_.append(line.strip().split(','))
 
     books_ = [{'name': book[0], 'author': book[1], 'read': int(book[2])} for book in books_]
     return books_
