@@ -1,6 +1,7 @@
 """
 Stored book csv version
 csv format: 'name,author,read\n'
+[['name', 'author', 'read'], []]
 """
 
 books_file = 'data.txt'
@@ -17,25 +18,26 @@ def mark_book(name):
         if book['name'] == name:
             book['read'] = 1
 
-    with open(books_file, 'w') as file:
-        for book in books_:
-            file.write(f"{book['name']},{book['author']},{book['read']}\n")
+    save_all_books(books_)
 
 
 def delete_book(name):
     books_ = get_all()
     books_ = [book for book in books_ if book['name'] != name]
 
+    save_all_books(books_)
+
+
+def save_all_books(items):
     with open(books_file, 'w') as file:
-        for book in books_:
+        for book in items:
             file.write(f"{book['name']},{book['author']},{book['read']}\n")
 
 
 def get_all():
-    books_ = []
     with open(books_file, 'r') as file:
         books_ = [line.strip().split(',') for line in file.readlines()]
-        
+
         # for line in file.readlines():
         #     books_.append(line.strip().split(','))
 
