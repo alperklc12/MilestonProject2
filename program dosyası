@@ -4,6 +4,9 @@ USER_CHOICE = '[a]dd-[l]ist-[m]ark-[d]elete-[q]uit'
 
 
 def main():
+
+    database.create_data_file()
+
     user_input = input(USER_CHOICE)
     while user_input != 'q':
         if user_input == 'a':
@@ -29,8 +32,8 @@ def prompt_add_book():
 def list_books():
     books_ = database.get_all()
     for book in books_:
-        status = 'No' if book['read'] == False else 'Yes'
-        print(f"{book['name']} writen by {book['author']} Read Status: {status}")
+        status = 'Yes' if book['read'] else 'No'
+        print(f"{book['name']} writen by {book['author']} read: {status}")
 
 
 def prompt_mark_book():
