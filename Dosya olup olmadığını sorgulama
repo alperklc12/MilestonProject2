@@ -1,0 +1,16 @@
+import os
+
+file_data = 'data.txt'
+
+full_path = os.getcwd()
+relative_path = full_path + '\\' + file_data
+
+query = os.path.isfile(relative_path)
+
+print(os.path.isfile(relative_path))
+print(full_path)
+print(relative_path)
+print(query)
+
+if not os.path.isfile(relative_path):
+    print('oluştur')
