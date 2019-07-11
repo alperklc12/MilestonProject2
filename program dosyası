@@ -1,0 +1,47 @@
+from utils import database
+
+USER_CHOICE = '[a]dd-[l]ist-[m]ark-[d]elete-[q]uit'
+
+
+def main():
+    user_input = input(USER_CHOICE)
+    while user_input != 'q':
+        if user_input == 'a':
+            prompt_add_book()
+        elif user_input == 'l':
+            list_books()
+        elif user_input == 'm':
+            prompt_mark_book()
+        elif user_input == 'd':
+            prompt_delet_book()
+        else:
+            print('Not correct choice')
+
+        user_input = input(USER_CHOICE)
+
+
+def prompt_add_book():
+    name = input('Enter book name')
+    author = input('Enter book author')
+    database.add_book(name, author)
+
+
+def list_books():
+    books_ = database.get_all()
+    for book in books_:
+        status = 'No' if book['read'] == False else 'Yes'
+        print(f"{book['name']} writen by {book['author']} Read Status: {status}")
+
+
+def prompt_mark_book():
+    name = input('Enter book name')
+    database.mark_book(name)
+
+
+def prompt_delet_book():
+    name = input('Enter book name')
+    database.delete_book(name)
+
+
+if __name__ == '__main__':
+    main()
