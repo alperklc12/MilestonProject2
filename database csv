@@ -1,0 +1,41 @@
+"""
+Stored book csv version
+csv format: 'name,author,read\n'
+"""
+
+books_file = 'data.txt'
+
+
+def add_book(name, author):
+    with open(books_file, 'a') as file:
+        file.write(f'{name},{author},0\n')
+
+
+def mark_book(name):
+    books_ = get_all()
+    for book in books_:
+        if book['name'] == name:
+            book['read'] = 1
+
+    with open(books_file, 'w') as file:
+        for book in books_:
+            file.write(f"{book['name']},{book['author']},{book['read']}\n")
+
+
+def delete_book(name):
+    books_ = get_all()
+    books_ = [book for book in books_ if book['name'] != name]
+
+    with open(books_file, 'w') as file:
+        for book in books_:
+            file.write(f"{book['name']},{book['author']},{book['read']}\n")
+
+
+def get_all():
+    books_ = []
+    with open(books_file, 'r') as file:
+        for line in file.readlines():
+            books_.append(line.strip().split(','))
+
+    books_ = [{'name': book[0], 'author': book[1], 'read': int(book[2])} for book in books_]
+    return books_
