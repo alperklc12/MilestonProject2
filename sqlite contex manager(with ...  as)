@@ -1,5 +1,6 @@
 import sqlite3
 
+
 class DataBaseConnect:
     def __init__(self, host):
         self.connection = None
@@ -10,8 +11,12 @@ class DataBaseConnect:
         return self.connection
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.connection.commit()
-        self.connection.close()
+
+        if exc_type or exc_val or exc_tb:
+            self.connection.close()
+        else:
+            self.connection.commit()
+            self.connection.close()
 
 *****************************************
 
