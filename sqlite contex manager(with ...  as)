@@ -1,0 +1,62 @@
+import sqlite3
+
+class DataBaseConnect:
+    def __init__(self, host):
+        self.host = host
+
+    def __enter__(self):
+        self.connection = sqlite3.connect(self.host)
+        return self.connection
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.connection.commit()
+        self.connection.close()
+
+*****************************************
+
+"""
+Stored book csv version
+sqlite
+
+"""
+import os
+from utils.database_connect import DataBaseConnect
+
+books_file = 'data.db'
+
+
+def create_data_file():
+    full_path = os.getcwd()
+    relativ_path = full_path + '\\' + books_file
+
+    if not os.path.isfile(relativ_path):
+        with DataBaseConnect(books_file) as connection:
+            cursor = connection.cursor()
+            cursor.execute('CREATE TABLE books(name text, author text, read integer)')
+
+
+def add_book(name, author):
+    with DataBaseConnect(books_file) as connection:
+        cursor = connection.cursor()
+        cursor.execute('INSERT INTO books VALUES(?, ?, ?)', (name, author, 0))
+
+
+def mark_book(name):
+    with DataBaseConnect(books_file) as connection:
+        cursor = connection.cursor()
+        cursor.execute('UPDATE books SET read=1 WHERE name=?', (name,))
+
+
+def delete_book(name):
+    with DataBaseConnect(books_file) as connection:
+        cursor = connection.cursor()
+        cursor.execute('DELETE FROM books WHERE name=?', (name,))
+
+
+def get_all():
+    with DataBaseConnect(books_file) as connection:
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM books')
+        content = cursor.fetchall()
+
+    return content
