@@ -2,6 +2,7 @@ import sqlite3
 
 class DataBaseConnect:
     def __init__(self, host):
+        self.connection = None
         self.host = host
 
     def __enter__(self):
