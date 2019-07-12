@@ -91,7 +91,10 @@ def add_book(name, author):
 def mark_book(name):
     connect = sqlite3.connect(books_file)
     cursor = connect.cursor()
-    cursor.execute('UPDATE books SET read=? WHERE name=?', (1, name))
+    
+    #cursor.execute('UPDATE books SET read=? WHERE name=?', (1, name))
+    cursor.execute('UPDATE books SET read=1 WHERE name=?', (name,))
+    
     connect.commit()
     connect.close()
 
